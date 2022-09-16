@@ -1,0 +1,102 @@
+version: '3.0'
+
+services:
+
+  hello-app:
+    build: .
+    image: hello-app:latest
+    container_name: hello-app
+    hostname: hello-app
+    depends_on:
+      - collector
+    ports:
+      - "8888:8888"
+    environment:
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:5555
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_IMR_EXPORT_INTERVAL=5000
+      - OTEL_METRIC_EXPORT_INTERVAL=5000
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=development
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
+
+  collector:
+    image: otel/opentelemetry-collector:latest
+    container_name: collector
+    hostname: collector
+    depends_on:
+      tempo:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
+    command: ["--config=/etc/collector-config.yaml"]
+    volumes:
+      - ./collector-config-local.yaml:/etc/collector-config.yaml
+    ports:
+      - "5555:5555"
+      - "6666:6666"
+
+  tempo:
+    image: grafana/tempo:latest
+    command: [ "-search.enabled=true", "-config.file=/etc/tempo.yaml" ]
+    container_name: tempo
+    hostname: tempo
+    volumes:
+      - ./o11y-backend/tempo-config.yaml:/etc/tempo.yaml
+      - ./o11y-backend/tempo-overrides.yaml:/etc/overrides.yaml
+      - ./tempo-data:/tmp/tempo
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:3200/status || exit 1
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    hostname: prometheus
+    command:
+      - --config.file=/etc/prometheus.yaml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    volumes:
+      - ./o11y-backend/prometheus.yaml:/etc/prometheus.yaml
+    ports:
+      - "9090:9090"
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:9090/status || exit 1
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana 
+    depends_on:
+      tempo:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
+    volumes:
+      - ./o11y-backend/grafana-bootstrap.ini:/etc/grafana/grafana.ini
+      - ./o11y-backend/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    ports:
+      - "3000:3000"
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+
+networks:
+  default:
+    name: inst-java-apps-using-otel

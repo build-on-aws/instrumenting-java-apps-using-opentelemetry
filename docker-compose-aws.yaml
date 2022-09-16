@@ -1,0 +1,43 @@
+version: '3.0'
+
+services:
+
+  hello-app:
+    build: .
+    image: hello-app:latest
+    container_name: hello-app
+    hostname: hello-app
+    depends_on:
+      - collector
+    ports:
+      - "8888:8888"
+    environment:
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:5555
+      - OTEL_TRACES_SAMPLER=always_on
+      - OTEL_IMR_EXPORT_INTERVAL=5000
+      - OTEL_METRIC_EXPORT_INTERVAL=5000
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=hello-app,service.version=1.0,deployment.environment=production
+    healthcheck:
+      interval: 5s
+      retries: 10
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8888/hello
+
+  collector:
+    image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+    container_name: collector
+    hostname: collector
+    command: ["--config=/etc/collector-config.yaml"]
+    environment:
+      - AWS_PROFILE=default
+    volumes:
+      - ./collector-config-aws.yaml:/etc/collector-config.yaml
+      - ~/.aws:/root/.aws
+    ports:
+      - "5555:5555"
+      - "6666:6666"
+
+networks:
+  default:
+    name: inst-java-apps-using-otel
