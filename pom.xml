@@ -14,11 +14,6 @@
         <relativePath />
     </parent>
 
-    <properties>
-        <otel.traces.api.version>0.13.1</otel.traces.api.version>
-        <otel.metrics.api.version>1.10.0-alpha-rc.1</otel.metrics.api.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,26 +39,6 @@
             <version>4.13.2</version>
             <scope>compile</scope>
         </dependency>        
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
-            <version>1.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-instrumentation-annotations</artifactId>
-            <version>1.18.0-alpha</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api-trace</artifactId>
-            <version>${otel.traces.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api-metrics</artifactId>
-            <version>${otel.metrics.api.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
