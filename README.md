@@ -15,7 +15,7 @@ You can have the microservice sending telemetry data to a local observability ba
 1. Start the containers using Docker Compose.
 
 ```bash
-docker compose up -d
+docker compose -f docker-compose.yaml up -d
 ```
 
 2. Access the Grafana UI: http://localhost:3000
