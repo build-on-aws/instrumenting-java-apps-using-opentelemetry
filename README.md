@@ -4,33 +4,39 @@ This project provides an example of microservice written in Java that produces t
 
 ### Requirements
 
-* [Docker](https://www.docker.com/get-started)
 * [Java 17+](https://openjdk.org/install)
 * [Maven 3.8.6+](https://maven.apache.org/download.cgi)
+* [Docker](https://www.docker.com/get-started)
 
-## 1️⃣ Running the microservice with Grafana, Grafana Tempo, and Prometheus as observability backend.
+## 🏢 Running the microservice with Grafana, Grafana Tempo, and Prometheus as observability backend.
 
 You can have the microservice sending telemetry data to a local observability backend. Traces will be sent to [Grafana Tempo](https://grafana.com/traces) and the metrics to [Prometheus](https://prometheus.io). Then you can use [Grafana](https://grafana.com/grafana) to visualize the the generated telemetry data.
+
+1. Start the containers using Docker Compose.
 
 ```bash
 docker compose up -d
 ```
 
-Once the containers are up-and-running, Grafana will be available in the following address: http://localhost:3000
+2. Access the Grafana UI: http://localhost:3000
 
-## 2️⃣ Running the microservice with AWS X-Ray and Amazon CloudWatch as observability backend.
+## 🌩 Running the microservice with AWS X-Ray and Amazon CloudWatch as observability backend.
 
 You can have the microservice sending telemetry data to AWS as observability backend. Traces will be sent to [AWS X-Ray](https://aws.amazon.com/xray) and the metrics to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch). This is possible thanks to the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel) that provides out-of-the-box integration with AWS services. Before running the code; make sure to [configure your AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) in your machine, as the code will use them to connect with the target services.
+
+1. Start the containers using Docker Compose.
 
 ```bash
 docker compose -f docker-compose-aws.yaml up -d
 ```
 
-Once the containers are up-and-running, simply go to the [AWS Console](https://console.aws.amazon.com).
+2. Access the AWS Console: https://console.aws.amazon.com
 
-## #️⃣ Invoke the Microservice API manually
+## ⚡️ Invoke the Microservice API manually
 
-The microservice expose an API over the port 8888 using HTTP. If you want to invoke this API for testing here is how:
+The microservice expose an API over the port 8888 using HTTP.
+
+1. Invoke this API for testing purposes.
 
 ```bash
 curl -X GET http://localhost:8888/hello
