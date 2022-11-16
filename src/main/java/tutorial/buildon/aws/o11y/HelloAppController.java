@@ -13,6 +13,11 @@ import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import static tutorial.buildon.aws.o11y.Constants.*;
 import static java.lang.Runtime.*;
 
@@ -84,22 +89,12 @@ public class HelloAppController {
         return new Response("Hello World");
     }
 
+    @Getter @Setter
+    @RequiredArgsConstructor
     private class Response {
 
+        @NonNull
         private String message;
-
-        public Response(String message) {
-            setMessage(message);
-        }
-
-        @SuppressWarnings("unused")
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
 
         public boolean isValid() {
             return true;
