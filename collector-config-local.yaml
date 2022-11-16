@@ -9,9 +9,6 @@ processors:
     timeout: 1s
     send_batch_size: 1024
 
-extensions:
-  health_check:
-    
 exporters:
   prometheus:
     endpoint: collector:6666
@@ -31,7 +28,6 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlp]
-  extensions: [health_check]
   telemetry:
     logs:
       level: debug

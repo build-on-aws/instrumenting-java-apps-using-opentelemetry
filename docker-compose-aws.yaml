@@ -36,7 +36,6 @@ services:
       - ~/.aws:/root/.aws
     ports:
       - "5555:5555"
-      - "6666:6666"
 
 networks:
   default:
