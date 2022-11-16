@@ -4,6 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 @RestController
 public class HelloAppController {
 
@@ -23,27 +28,17 @@ public class HelloAppController {
         return new Response("Hello World");
     }
 
+    @Getter @Setter
+    @RequiredArgsConstructor
     private class Response {
 
+        @NonNull
         private String message;
-
-        public Response(String message) {
-            setMessage(message);
-        }
-
-        @SuppressWarnings("unused")
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
 
         public boolean isValid() {
             return true;
         }
 
     }
-
+    
 }
