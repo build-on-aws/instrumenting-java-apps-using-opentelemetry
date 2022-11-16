@@ -2,6 +2,12 @@
 
 This project provides an example of microservice written in Java that produces telemetry data for traces and metrics using [OpenTelemetry](https://opentelemetry.io). It also shows how to de-couple the application from the observability backend using the [OpenTelemetry Collector](https://opentelemetry.io/docs/collector) and the [OTLP protocol](https://opentelemetry.io/docs/reference/specification/protocol), so you can be easily switch the observability backend for another without code changes.
 
+💡 If you want to learn how to build this code from scratch with a hands-on tutorial, you can watch the YouTube series below.
+
+[![Instrumenting Java Applications using OpenTelemetry](images/youtube.png)](https://www.youtube.com/watch?v=XvmicNH_4lc&list=PLDqi6CuDzubz5viRapQ049TjJMOCCu9MJ&index=1)
+
+Alternatively, you can also read the blog post: https://www.buildon.aws/posts/instrumenting-java-apps-using-opentelemetry
+
 ### Requirements
 
 * [Java 17+](https://openjdk.org/install)
