@@ -1,13 +1,10 @@
 package tutorial.buildon.aws.o11y;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @RestController
 public class HelloAppController {
@@ -28,17 +25,13 @@ public class HelloAppController {
         return new Response("Hello World");
     }
 
-    @Getter @Setter
-    @RequiredArgsConstructor
-    private class Response {
-
-        @NonNull
-        private String message;
-
-        public boolean isValid() {
+    private record Response (String message) {
+        private Response {
+            Objects.requireNonNull(message);
+        }
+        private boolean isValid() {
             return true;
         }
-
     }
     
 }
