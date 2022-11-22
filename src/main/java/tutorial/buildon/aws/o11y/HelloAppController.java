@@ -1,7 +1,11 @@
 package tutorial.buildon.aws.o11y;
 
+import java.util.Objects;
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +18,7 @@ import io.opentelemetry.context.Scope;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 
 import static tutorial.buildon.aws.o11y.Constants.*;
-
-import java.util.Objects;
-
 import static java.lang.Runtime.*;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 public class HelloAppController {
