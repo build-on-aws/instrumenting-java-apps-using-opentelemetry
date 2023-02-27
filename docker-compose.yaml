@@ -41,7 +41,7 @@ services:
       - "6666:6666"
 
   tempo:
-    image: grafana/tempo:latest
+    image: grafana/tempo:1.5.0
     command: [ "-search.enabled=true", "-config.file=/etc/tempo.yaml" ]
     container_name: tempo
     hostname: tempo
@@ -58,7 +58,7 @@ services:
       test: wget --no-verbose --tries=1 --spider http://localhost:3200/status || exit 1
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.39.2
     container_name: prometheus
     hostname: prometheus
     command:
@@ -75,7 +75,7 @@ services:
       test: wget --no-verbose --tries=1 --spider http://localhost:9090/status || exit 1
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:9.2.2
     container_name: grafana
     hostname: grafana 
     depends_on:
