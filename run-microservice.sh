@@ -4,7 +4,7 @@ mvn clean package -Dmaven.test.skip=true
 
 AGENT_FILE=opentelemetry-javaagent-all.jar
 if [ ! -f "${AGENT_FILE}" ]; then
-  curl -L https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/v1.24.0/aws-opentelemetry-agent.jar --output ${AGENT_FILE}
+  curl -L https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/v1.27.0/aws-opentelemetry-agent.jar --output ${AGENT_FILE}
 fi
 
 export OTEL_TRACES_EXPORTER=otlp
