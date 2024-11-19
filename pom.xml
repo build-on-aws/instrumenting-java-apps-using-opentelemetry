@@ -91,7 +91,7 @@
                 <version>1.2.0</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>initialize</phase>
                         <goals>
                             <goal>write-project-properties</goal>
                         </goals>

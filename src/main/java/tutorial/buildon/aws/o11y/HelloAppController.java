@@ -26,10 +26,10 @@ public class HelloAppController {
     private static final Logger log =
         LoggerFactory.getLogger(HelloAppController.class);
 
-    @Value("otel.traces.api.version")
+    @Value("${otel.traces.api.version}")
     private String tracesApiVersion;
 
-    @Value("otel.metrics.api.version")
+    @Value("${otel.metrics.api.version}")
     private String metricsApiVersion;
 
     private final Tracer tracer =
